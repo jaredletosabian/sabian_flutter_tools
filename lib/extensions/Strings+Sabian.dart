@@ -58,13 +58,13 @@ extension SabianRegexShortcutsNullable on String? {
     return true;
   }
 
-
   /// Checks if the string matches any of the provided keywords.
   ///
   /// [keyWords]: A list of strings to check against.
   /// [reverseLook]: If true, also checks if any keyword is a match by this string.
   /// Returns true if a match is found, false otherwise.
-  bool matchesWithAnyKeyWord(List<String> keyWords, {bool reverseLook = false}) {
+  bool matchesWithAnyKeyWord(List<String> keyWords,
+      {bool reverseLook = false}) {
     if (keyWords.isEmpty) {
       return false;
     }
@@ -83,6 +83,16 @@ extension SabianRegexShortcutsNullable on String? {
     });
   }
 
+  /// Returns true if this string matches any of the given [patterns].
+  bool matchesWithAnyPattern(Iterable<RegExp> patterns,
+      {bool caseSensitive = false}) {
+    for (final pattern in patterns) {
+      if (pattern.hasMatch(this ?? "")) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   String get noWhiteSpaces {
     String _this = this ?? "";
@@ -228,5 +238,4 @@ extension Manipulation on String {
   String get toBase64 {
     return base64Encode(utf8.encode(this));
   }
-
 }

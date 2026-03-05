@@ -56,6 +56,13 @@ class FileDirectoryManager {
     return dir;
   }
 
+
+  /// Retrieves a file within the storage directory
+  Future<File> getFile(String fileName, {String? subDirectoryName}) async {
+    Directory directory = await getStorageDirectory(subDirectoryName);
+    return File("${directory.path}/$fileName");
+  }
+
   ///Stores a temporary file to a permanent one
   Future<File> storeTempFile(File tempFile,
       {String? subDirectoryName,

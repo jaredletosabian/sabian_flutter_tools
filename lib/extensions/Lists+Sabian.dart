@@ -163,6 +163,15 @@ extension SabianListMethods<E> on List<E> {
           "Illegal comparable. Accepted are int, string or Comparable");
     });
   }
+
+
+  /// Returns true if no element matches the given [predicate].
+  bool none(bool Function(E element) predicate) {
+    for (E element in this) {
+      if (predicate(element)) return false;
+    }
+    return true;
+  }
 }
 
 extension SabianListObjectItem on Object {

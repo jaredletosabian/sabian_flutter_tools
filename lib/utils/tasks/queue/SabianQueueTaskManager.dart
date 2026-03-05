@@ -17,11 +17,15 @@ class SabianQueueTaskManager<Q> {
   @protected
   Q? lastQueueItem;
 
+  /// The delay before executing the next task
+  final Duration? delay;
+
   @protected
   final lock = Lock();
 
   SabianQueueTaskManager({
     required this.listener,
+    this.delay,
   });
 
   void enqueue(Q item, {bool startImmediate = true}) async {
@@ -47,6 +51,9 @@ class SabianQueueTaskManager<Q> {
       isProcessing = true;
       final next = queue.pop();
       if (next != null) {
+        if (delay != null && delay! > Duration.zero) {
+          await Future.delayed(delay!);
+        }
         execute(next);
       } else {
         onComplete();
