@@ -11,7 +11,6 @@ extension SabianDateExtension on DateTime {
     return DateUtils.dateOnly(this);
   }
 }
-
 extension SabianStringDate on String {
   DateTime toDate([String? pattern]) {
     if (pattern == null) {
@@ -35,7 +34,6 @@ extension DateTimeComparison on DateTime {
     return year == other.year && month == other.month && day == other.day;
   }
 }
-
 
 extension SabianIntDateExtension on int {
   /// Converts milliseconds (or seconds if multiplied) to HH:mm:ss
