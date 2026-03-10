@@ -24,6 +24,11 @@ extension SabianListModifier<E> on Iterable<E> {
     return toOrderedSet().toList();
   }
 
+  List<E> distinctBy<T>(T Function(E) selector) {
+    final seen = <T>{};
+    return where((element) => seen.add(selector(element))).toList();
+  }
+
   /// Gets element at index or returns null if not found.
   /// Useful when you just want to get an object or null instead of catching errors
   E? elementAtOrNull(int index) {

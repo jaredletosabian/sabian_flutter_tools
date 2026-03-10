@@ -85,4 +85,24 @@ void main() {
     assert(grouped[20] != null && grouped[20]!.length == 4);
     assert(grouped[23] != null && grouped[23]!.length == 2);
   });
+
+  test("distinct works", () {
+    List<int> list = [1, 2, 2, 3, 4, 4, 5];
+    List<int> distinctList = list.distinct();
+    assert(distinctList.length == 5);
+    assert(distinctList[1] == 2);
+    assert(distinctList[4] == 5);
+  });
+
+  test("distinctBy works", () {
+    List<TestSubject> subjects = [
+      TestSubject("Jared", "A", 1),
+      TestSubject("Jared", "B", 2),
+      TestSubject("Lisa", "C", 3),
+    ];
+    List<TestSubject> distinctSubjects = subjects.distinctBy((e) => e.name);
+    assert(distinctSubjects.length == 2);
+    assert(distinctSubjects[0].name == "Jared");
+    assert(distinctSubjects[1].name == "Lisa");
+  });
 }

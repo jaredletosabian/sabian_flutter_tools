@@ -35,3 +35,42 @@ extension DateTimeComparison on DateTime {
     return year == other.year && month == other.month && day == other.day;
   }
 }
+
+
+extension SabianIntDateExtension on int {
+  /// Converts milliseconds (or seconds if multiplied) to HH:mm:ss
+  /// Logic equivalent to Long.toHoursMinutesSeconds()
+  String toHoursMinutesSeconds() {
+    // Assuming 'this' is seconds based on the Kotlin code (this * 1000)
+    Duration duration = Duration(seconds: this);
+
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+
+    // duration.inHours handles values > 24 if necessary
+    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+  }
+}
+
+extension SabianStringDateConversion on String {
+  /// Converts a value like "00:00:00.00000" to DateTime
+  /// Logic equivalent to String.hourMinuteSecondsToDateTime()
+  DateTime? hourMinuteSecondsToDateTime({DateTime? useDate}) {
+    try {
+      final dateToUse = useDate ?? DateTime.now();
+
+      // Split by "." to remove fractional seconds/offsets and take the HH:mm:ss part
+      final strictHourMinutes = this.split(".").first;
+
+      // Format: yyyy-MM-dd
+      final datePart = DateFormat('yyyy-MM-dd').format(dateToUse);
+
+      // Dart's DateTime.parse expects ISO 8601: "2023-01-01T12:00:00"
+      return DateTime.parse("${datePart}T$strictHourMinutes");
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
+  }
+}

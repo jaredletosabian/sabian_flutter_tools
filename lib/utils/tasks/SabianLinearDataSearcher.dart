@@ -14,6 +14,9 @@ typedef OnCancel = void Function(Exception?);
 typedef OnBeforeSearch = void Function();
 
 class SabianLinearDataSearcher<T> {
+
+  static const int defaultThreadSearchThreshold = 100000;
+
   SabianDebounceTask<void>? _debounceTask;
   String? query;
 
@@ -38,12 +41,12 @@ class SabianLinearDataSearcher<T> {
       this.onCancel,
       this.onBefore,
       this.debounceMilliseconds = 300,
-      this.differentThreadThreshold = 500});
+      this.differentThreadThreshold = defaultThreadSearchThreshold});
 
   SabianLinearDataSearcher.withOutCallBacks(
       {required this.searchCriteria,
       this.debounceMilliseconds = 0,
-      this.differentThreadThreshold = 500,
+      this.differentThreadThreshold = defaultThreadSearchThreshold,
       this.onSearched,
       this.onSearchError,
       this.onCancel,
